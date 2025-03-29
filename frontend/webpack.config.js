@@ -5,7 +5,7 @@ module.exports = {
   mode: 'development', // Set to 'development' for local development or 'production' for production builds
   entry: './src/index.js', 
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js',
     clean: true, 
     publicPath: '/', 
