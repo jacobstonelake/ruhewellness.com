@@ -1,0 +1,45 @@
+/* global.css */
+@import url('https://fonts.googleapis.com/css2?family=Bilgosia+Serif&display=swap');
+
+
+/* Base Element Styles: Resets margins, padding, and borders */
+body, header, nav, footer, div, img, ul {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+/* Body Styling */
+body {
+    background-color: #e1dae6; /* Light gray background */
+}
+
+/* Utility Classes */
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.round {
+    border-radius: 15px;
+}
+
+/* Responsive Visibility Classes */
+.mobile {
+    display: block;
+}
+
+.tablet-desktop {
+    display: none;
+}
+
+/* Media Queries */
+@media screen and (min-width: 630px) {
+    .tablet-desktop {
+        display: block;
+    }
+    .mobile {
+        display: none;
+    }
+}

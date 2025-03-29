@@ -1,0 +1,208 @@
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif&display=swap');
+
+/* Main Services Page */
+.services {
+  padding: 2rem;
+  font-family: 'PT Serif', serif;
+  background-color: #f9f6fb;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.services-intro {
+  max-width: 700px;
+  margin: 0 auto 2rem;
+  font-size: 1.1rem;
+  color: #606f7b;
+}
+
+
+/* Services Heading */
+.services h2 {
+  font-size: 2rem;
+  color: #6A4E9A;
+  margin-bottom: 2rem;
+}
+
+/* Services Grid */
+.services-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  justify-items: center;
+}
+
+/* Individual Service Card */
+.service-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(106, 78, 154, 0.1);
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 250px;
+  text-align: left;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(106, 78, 154, 0.15);
+}
+
+.service-card h3 {
+  font-size: 1.25rem;
+  color: #6A4E9A;
+  margin-bottom: 0.5rem;
+}
+
+.service-card p {
+  font-size: 1rem;
+  color: #606f7b;
+  line-height: 1.5;
+}
+
+/* Alternate card background */
+.service-card:nth-child(odd) {
+  background-color: #f1ebf8; /* Subtle lavender */
+}
+
+/* Expertise Section */
+.expertise {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(106, 78, 154, 0.1);
+}
+
+.expertise h2 {
+  font-size: 1.75rem;
+  color: #6A4E9A;
+  margin-bottom: 1rem;
+}
+
+.expertise p {
+  font-size: 1.1rem;
+  color: #606f7b;
+  margin-bottom: 1.5rem;
+}
+
+.expertise-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.expertise-list li {
+  font-size: 1rem;
+  color: #555;
+  padding: 0.75rem;
+  background-color: #f9f6fb;
+  border-radius: 5px;
+  box-shadow: 0 1px 4px rgba(106, 78, 154, 0.08);
+  text-align: left;
+}
+
+
+.cta-bottom {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.cta-bottom h3 {
+  font-size: 1.5rem;
+  color: #6A4E9A;
+  margin-bottom: 1rem;
+}
+
+.cta-button {
+  padding: 0.75rem 1.5rem;
+  background-color: #7E5A9B;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: #D6A2E8;
+}
+
+.service-card svg {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+/* New layout additions */
+.services-overview {
+  margin-bottom: 3rem;
+}
+
+.overview-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  justify-items: center;
+  margin-top: 1rem;
+}
+
+.overview-item {
+  background-color: #ffffff;
+  padding: 1.25rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(106, 78, 154, 0.1);
+  text-align: center;
+}
+
+.overview-item h3 {
+  font-size: 1.1rem;
+  color: #6A4E9A;
+  margin: 0.5rem 0;
+}
+
+.services-detail {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 3rem;
+  box-shadow: 0 2px 8px rgba(106, 78, 154, 0.1);
+  text-align: center;
+}
+
+.services-detail h2 {
+  color: #6A4E9A;
+  font-size: 1.75rem;
+  margin: 1rem 0;
+}
+
+.services-detail p {
+  font-size: 1.1rem;
+  color: #606f7b;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.cash-pay h2 {
+  font-size: 1.75rem;
+  color: #6A4E9A;
+  margin-bottom: 1rem;
+}
+
+.cash-pay p {
+  font-size: 1.1rem;
+  color: #606f7b;
+  line-height: 1.7;
+  max-width: 800px;
+  margin: 0 auto 1rem;
+}
+
+.cash-pay {
+  background-color: #f1ebf8;
+  border-left: 6px solid #6A4E9A;
+  padding: 2rem;
+}

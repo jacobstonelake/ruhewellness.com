@@ -1,0 +1,105 @@
+/* General nav styles */
+.main-nav {
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-list li {
+  margin: 0 10px;
+  position: relative; 
+}
+
+.nav-list a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  transition: color 0.3s, background-color 0.3s;
+}
+
+.nav-list a:hover {
+  color: #007bff; 
+}
+
+/* Highlighted links for Book Appointment and Patient Portal */
+.nav-list .highlighted a {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-list .highlighted a:hover {
+  background-color: #0056b3; 
+}
+
+/* Dropdown menu */
+.dropdown {
+  font-family: Arial, sans-serif;
+  position: relative;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  font-family: Arial, sans-serif;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  padding: 10px;
+  margin: 0;
+  display: none; /* Hidden by default */
+  flex-direction: column;
+  min-width: 150px;
+  z-index: 10; /* Ensures dropdown appears above other elements */
+}
+
+.dropdown:hover .dropdown-menu {
+  display: flex; /* Show dropdown on hover */
+}
+
+.dropdown-menu li {
+  margin: 5px 0;
+}
+
+.dropdown-menu a {
+  color: #333;
+  padding: 5px 10px;
+  border-radius: 3px;
+  transition: background-color 0.3s;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f8f9fa; /* Subtle hover effect for dropdown links */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .nav-list {
+    font-size: 12px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-list li {
+    margin: 10px 0;
+  }
+
+  .highlighted a {
+    width: 100%;
+    text-align: center;
+  }
+}
