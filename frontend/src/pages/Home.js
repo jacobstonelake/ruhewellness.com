@@ -26,7 +26,15 @@ const Home = () => (
               Whether you're managing mental health conditions or navigating medication adjustments, 
               I'm here to support you.
             </p>
-            <button className="cta-button">Book Appointment</button>
+            <a 
+                href="https://chelsea-minix.clientsecure.me" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="cta-button"
+              >
+                Book Appointment
+            </a>
+
           </div>
         </div>
       </div>
