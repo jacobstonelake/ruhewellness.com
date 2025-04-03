@@ -84,6 +84,15 @@ app.post('/api/contact', async (req, res) => {
 });
 
 
+// Define routes
+app.get('/', (req, res) => {
+    res.send('Ruhe Wellness backend is live.');
+  });
+  
+  app.get('/health', (req, res) => {
+    res.send('OK');
+  });
+
 // Start Server
 const PORT = process.env.PORT || 5000;
 
