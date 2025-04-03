@@ -1,4 +1,5 @@
-require('dotenv').config({ path: 'backend/.env' });
+require('dotenv').config();
+
 
 const express = require('express');
 const cors = require('cors');
@@ -85,6 +86,15 @@ app.post('/api/contact', async (req, res) => {
 
 // Start Server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });
+
+
+//health endpoint 
+
+app.get('/health', (req, res) => {
+    res.status(200).send('OK');
+  });
+  
