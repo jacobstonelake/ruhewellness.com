@@ -6,6 +6,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const nodemailer = require('nodemailer');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+const rateLimit = require('express-rate-limit');
 //const mongoose = require('mongoose');
 
 const app = express();
@@ -82,6 +83,21 @@ app.post('/api/contact', async (req, res) => {
         res.status(500).json({ error: 'Failed to send message.' });
     }
 });
+
+
+// Limit each IP to 5 requests per 10 minutes
+const contactLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 minutes
+  max: 5,
+  message: {
+    error: 'Too many messages from this IP, please try again later.',
+  },
+});
+
+// Apply rate limiter only to the contact route
+app.use('/api/contact', contactLimiter);
+
+
 
 
 // Define routes
