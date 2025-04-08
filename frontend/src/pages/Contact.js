@@ -10,10 +10,9 @@ const Contact = () => {
     message: '',
   });
 
-  const siteKey = process.env.REACT_APP_SITE_KEY;
-
   // Load reCAPTCHA script on mount
   useEffect(() => {
+    const siteKey = process.env.REACT_APP_SITE_KEY;
     if (!siteKey) {
       console.error('❌ REACT_APP_SITE_KEY is missing. Check your .env or environment variables.');
       toast.error('reCAPTCHA site key not found.');
