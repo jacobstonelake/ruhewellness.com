@@ -1,20 +1,29 @@
-# dependencies
+# === Global Node Modules ===
 node_modules/
+**/node_modules/
 
-# production
+# === Build Artifacts ===
 dist/
 build/
+**/dist/
+**/build/
 
-# env variables
+# === Environment Variables ===
 .env
+.env.*
 .env.local
-.env.*.local
+**/.env
+**/.env.*
+**/.env.com*
 
-# logs
+# === Logs ===
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
 
-# system
+# === System Files ===
 .DS_Store
 Thumbs.db
