@@ -27,6 +27,8 @@ router.post('/', async (req, res) => {
         const verifyURL = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET}&response=${token}`;
         const recaptchaRes = await fetch(verifyURL, { method: 'POST' });
         const recaptchaData = await recaptchaRes.json();
+        console.log('🔒 reCAPTCHA verification result:', recaptchaData);
+
 
         if (!recaptchaData.success) {
             return res.status(400).json({ error: 'Failed reCAPTCHA verification.' });
@@ -38,6 +40,7 @@ router.post('/', async (req, res) => {
             subject: `New message from ${name}`,
             text: `Sender's Email: ${email}\n\nMessage:\n${message}`,
         });
+console.log('🔒 reCAPTCHA verification result:', recaptchaData);
 
         res.status(200).json({ message: 'Message sent successfully!' });
     } catch (error) {
