@@ -10,15 +10,17 @@ const helmet = require('helmet');
 
 const app = express();
 
-// Middleware
-app.use(express.json());
-app.use(cors({
+
+const corsOptions = {
     origin: 'https://www.ruhewellness.com',
     methods: ['POST', 'GET'],
     credentials: true,
-}));
-app.options('*', cors()); // <--- This handles preflight
+  };
 
+// Middleware
+app.use(cors(corsOptions));           // Apply globally
+app.options('*', cors(corsOptions)); 
+app.use(express.json());
 app.use(morgan('dev'));
 app.use(helmet());
 
