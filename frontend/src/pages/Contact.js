@@ -152,7 +152,7 @@ const Contact = () => {
           {errors.message && <p className="field-error">{errors.message}</p>}
 
           <ReCAPTCHA
-            sitekey="6LfN5_0qAAAAAFGRoqzkvbvcwEuJukyf_3jke4BJ"
+            sitekey="6LfiKg8rAAAAACbIaq45znxnY7KP2ggyuweBtINR"
             size="invisible"
             ref={recaptchaRef}
             asyncScriptOnLoad={() => console.log('✅ reCAPTCHA script loaded')}
