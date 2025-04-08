@@ -1,9 +1,11 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+require('dotenv').config(); // Load .env at build time
 
 module.exports = {
-  mode: 'production', // Change to 'production' for final build
+  mode: 'production', // or 'development' depending on the script
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -31,10 +33,13 @@ module.exports = {
         {
           from: 'public',
           globOptions: {
-            ignore: ['**/index.html'], // Already used by HtmlWebpackPlugin
+            ignore: ['**/index.html'],
           },
         },
       ],
+    }),
+    new webpack.DefinePlugin({
+      'process.env.REACT_APP_SITE_KEY': JSON.stringify(process.env.REACT_APP_SITE_KEY),
     }),
   ],
   devServer: {
