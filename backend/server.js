@@ -1,4 +1,7 @@
-require('dotenv').config();
+require('dotenv').config({ path: __dirname + '/.env' });
+console.log('✅ EMAIL_USER loaded:', process.env.EMAIL_USER);
+
+
 
 const express = require('express');
 const cors = require('cors');

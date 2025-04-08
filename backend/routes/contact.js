@@ -30,9 +30,15 @@ router.post('/', async (req, res) => {
         console.log('🔒 reCAPTCHA verification result:', recaptchaData);
 
 
-        if (!recaptchaData.success) {
-            return res.status(400).json({ error: 'Failed reCAPTCHA verification.' });
-        }
+            const expectedHostnames = ['ruhewellness.com'];
+            if (process.env.NODE_ENV === 'development') {
+                expectedHostnames.push('localhost');
+            }
+
+            if (!recaptchaData.success || !expectedHostnames.includes(recaptchaData.hostname)) {
+                return res.status(400).json({ error: 'Failed reCAPTCHA verification or invalid hostname.' });
+            }
+
 
         await transporter.sendMail({
             from: email,
