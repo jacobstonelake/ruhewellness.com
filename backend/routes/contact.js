@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-require('dotenv').config({ path: __dirname + '/../.env' }); // Ensure correct env in this subfolder
+require('dotenv').config({ path: __dirname + '/../.env' }); // Make sure .env loads correctly in subfolder
 
-// Email Transporter Setup
+// Setup email transporter
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
   port: 587,
@@ -26,22 +26,21 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    // Use correct POST body format
+    // Build request body properly
     const params = new URLSearchParams();
     params.append('secret', process.env.RECAPTCHA_SECRET);
     params.append('response', token);
 
     const recaptchaRes = await fetch('https://www.google.com/recaptcha/api/siteverify', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: params,
     });
 
     const recaptchaData = await recaptchaRes.json();
     console.log('🔍 Google reCAPTCHA verify result:', recaptchaData);
 
+    // Optional: verify hostname
     const expectedHostnames = ['ruhewellness.com'];
     if (process.env.NODE_ENV === 'development') {
       expectedHostnames.push('localhost');
@@ -51,7 +50,7 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ error: 'Failed reCAPTCHA verification or invalid hostname.' });
     }
 
-    // Send email
+    // Send the email
     await transporter.sendMail({
       from: `"${name}" <${process.env.EMAIL_USER}>`,
       to: process.env.RECEIVER_EMAIL,
@@ -62,7 +61,7 @@ router.post('/', async (req, res) => {
 
     res.status(200).json({ message: 'Message sent successfully!' });
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.error('❌ Error sending email or verifying CAPTCHA:', error);
     res.status(500).json({ error: 'Failed to send message.' });
   }
 });
