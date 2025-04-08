@@ -19,6 +19,11 @@ const transporter = nodemailer.createTransport({
 router.post('/', async (req, res) => {
     const { name, email, message, token } = req.body;
 
+    console.log('✅ Debug ENV Values:');
+console.log('RECAPTCHA_SECRET:', process.env.RECAPTCHA_SECRET);
+console.log('EMAIL_USER:', process.env.EMAIL_USER);
+console.log('📥 Token received (backend):', token);
+
     if (!name || !email || !message || !token) {
         return res.status(400).json({ error: 'All fields and reCAPTCHA are required.' });
     }
