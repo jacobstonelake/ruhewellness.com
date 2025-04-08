@@ -12,9 +12,16 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: 'https://www.ruhewellness.com',
+    methods: ['POST', 'GET'],
+    credentials: true,
+}));
+app.options('*', cors()); // <--- This handles preflight
+
 app.use(morgan('dev'));
 app.use(helmet());
+
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
@@ -40,7 +47,7 @@ transporter.verify((error) => {
     }
 });
 
-// ✅ Declare the rate limiter BEFORE you use it
+// Declare the rate limiter 
 const contactLimiter = rateLimit({
     windowMs: 10 * 60 * 1000,
     max: 5,
