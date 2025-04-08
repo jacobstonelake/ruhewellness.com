@@ -12,7 +12,7 @@ app.set('trust proxy', 1);
 
 // CORS Options
 const corsOptions = {
-  origin: 'https://www.ruhewellness.com',
+  origin: ['https://ruhewellness.com', 'https://www.ruhewellness.com'],
   methods: ['POST', 'GET'],
   credentials: true,
 };
@@ -40,6 +40,8 @@ const contactLimiter = rateLimit({
 });
 
 // Routes
+app.options('/api/contact', cors(corsOptions));
+
 const contactRoute = require('./routes/contact');
 app.use('/api/contact', contactLimiter, contactRoute);
 

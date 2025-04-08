@@ -23,6 +23,12 @@ router.post('/', async (req, res) => {
     return res.status(400).json({ error: 'All fields and reCAPTCHA are required.' });
   }
 
+// Secure Logging (masking env values)
+console.log('🔧 GCP_PROJECT_ID loaded:', !!process.env.GCP_PROJECT_ID);
+console.log('🔧 GCP_API_KEY loaded:', !!process.env.GCP_API_KEY);
+console.log('🔧 ENTERPRISE_SITE_KEY loaded:', !!process.env.ENTERPRISE_SITE_KEY);
+
+
   // Verify reCAPTCHA Enterprise token
   try {
     const assessmentPayload = {
@@ -33,11 +39,14 @@ router.post('/', async (req, res) => {
       },
     };
 
-    const recaptchaRes = await fetch(`https://recaptchaenterprise.googleapis.com/v1/projects/${process.env.GCP_PROJECT_ID}/assessments?key=${process.env.GCP_API_KEY}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(assessmentPayload),
-    });
+    const recaptchaRes = await fetch(
+      `https://recaptchaenterprise.googleapis.com/v1/projects/${process.env.GCP_PROJECT_ID}/assessments?key=${process.env.GCP_API_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(assessmentPayload),
+      }
+    );
 
     const data = await recaptchaRes.json();
     console.log('🔐 reCAPTCHA Enterprise response:', data);
