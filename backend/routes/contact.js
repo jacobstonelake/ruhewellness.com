@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-require('dotenv').config({ path: __dirname + '/../.env' }); // Make sure .env loads correctly in subfolder
+require('dotenv').config({ path: __dirname + '/../.env' }); // Load .env from parent directory
 
-// Setup email transporter
+// Email Transporter
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
   port: 587,
@@ -15,39 +15,39 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// POST /api/contact
+// Contact Route
 router.post('/', async (req, res) => {
   const { name, email, message, token } = req.body;
-
-  console.log('📥 Token received (backend):', token);
 
   if (!name || !email || !message || !token) {
     return res.status(400).json({ error: 'All fields and reCAPTCHA are required.' });
   }
 
+  // Verify reCAPTCHA Enterprise token
   try {
-    // Build request body properly
-    const params = new URLSearchParams();
-    params.append('secret', process.env.RECAPTCHA_SECRET);
-    params.append('response', token);
+    const assessmentPayload = {
+      event: {
+        token,
+        siteKey: process.env.ENTERPRISE_SITE_KEY,
+        expectedAction: 'contact_form',
+      },
+    };
 
-    const recaptchaRes = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+    const recaptchaRes = await fetch(`https://recaptchaenterprise.googleapis.com/v1/projects/${process.env.GCP_PROJECT_ID}/assessments?key=${process.env.GCP_API_KEY}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: params,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(assessmentPayload),
     });
 
-    const recaptchaData = await recaptchaRes.json();
-    console.log('🔍 Google reCAPTCHA verify result:', recaptchaData);
+    const data = await recaptchaRes.json();
+    console.log('🔐 reCAPTCHA Enterprise response:', data);
 
-    // Optional: verify hostname
-    const expectedHostnames = ['ruhewellness.com'];
-    if (process.env.NODE_ENV === 'development') {
-      expectedHostnames.push('localhost');
-    }
+    const valid = data.tokenProperties?.valid;
+    const actionMatches = data.tokenProperties?.action === 'contact_form';
+    const score = data.riskAnalysis?.score ?? 0;
 
-    if (!recaptchaData.success || !expectedHostnames.includes(recaptchaData.hostname)) {
-      return res.status(400).json({ error: 'Failed reCAPTCHA verification or invalid hostname.' });
+    if (!valid || !actionMatches || score < 0.5) {
+      return res.status(403).json({ error: 'Suspicious activity detected or reCAPTCHA failed.' });
     }
 
     // Send the email
@@ -60,9 +60,10 @@ router.post('/', async (req, res) => {
     });
 
     res.status(200).json({ message: 'Message sent successfully!' });
+
   } catch (error) {
-    console.error('❌ Error sending email or verifying CAPTCHA:', error);
-    res.status(500).json({ error: 'Failed to send message.' });
+    console.error('❌ reCAPTCHA Enterprise verification failed:', error);
+    res.status(500).json({ error: 'Failed to verify reCAPTCHA or send message.' });
   }
 });
 

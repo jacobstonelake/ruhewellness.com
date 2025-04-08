@@ -1,9 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Contact.css';
-import ReCAPTCHA from 'react-google-recaptcha';
 import { toast } from 'react-toastify';
-import { useEffect } from 'react';
-
 
 const Contact = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,7 +9,14 @@ const Contact = () => {
     email: '',
     message: '',
   });
-  const recaptchaRef = useRef(null);
+
+  // Load reCAPTCHA Enterprise script on mount
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = `https://www.google.com/recaptcha/enterprise.js?render=${process.env.REACT_APP_SITE_KEY}`;
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -55,21 +59,11 @@ const Contact = () => {
     try {
       setIsLoading(true);
 
-      if (!recaptchaRef.current) {
-        toast.error('reCAPTCHA not ready. Please reload and try again.');
-        return;
-      }
-
-      let token;
-      try {
-        token = await recaptchaRef.current.executeAsync();
-        console.log('🧪 Generated token (frontend):', token);
-        recaptchaRef.current.reset();
-      } catch (err) {
-        console.error('❌ reCAPTCHA execution failed:', err);
-        toast.error('reCAPTCHA failed. Please reload and try again.');
-        return;
-      }
+      const token = await window.grecaptcha.enterprise.execute(
+        process.env.REACT_APP_SITE_KEY,
+        { action: 'contact_form' }
+      );
+      console.log('🧪 Token generated (frontend):', token);
 
       const formData = {
         name: nameValue,
@@ -93,7 +87,7 @@ const Contact = () => {
         toast.error(data.error || 'Failed to send message. Please try again.');
       }
     } catch (error) {
-      console.error('Error in submission:', error);
+      console.error('❌ Error in submission:', error);
       toast.error('Something went wrong. Please try again.');
     } finally {
       setIsLoading(false);
@@ -102,8 +96,6 @@ const Contact = () => {
 
   return (
     <main className="contact">
-
-
       <section className="contact-info">
         <h1>Contact Us</h1>
         <p>
@@ -151,17 +143,6 @@ const Contact = () => {
             required
           ></textarea>
           {errors.message && <p className="field-error">{errors.message}</p>}
-
-          <ReCAPTCHA
-            sitekey="6LegOg8rAAAAAIZFTe6LbC8S1udyMLLKYo87RcfI"
-            size="invisible"
-            ref={recaptchaRef}
-            asyncScriptOnLoad={() => console.log('✅ reCAPTCHA script loaded')}
-            onErrored={() => {
-              console.error('❌ reCAPTCHA failed to load or verify.');
-              toast.error('reCAPTCHA verification failed. Please reload the page.');
-            }}
-          />
 
           <button type="submit" className="submit-button" disabled={isLoading}>
             {isLoading ? 'Sending...' : 'Submit'}
