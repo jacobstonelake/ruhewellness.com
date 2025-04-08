@@ -1,24 +1,48 @@
 const express = require('express');
 const router = express.Router();
+const nodemailer = require('nodemailer');
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+require('dotenv').config();
 
-// POST Route for Contact Form
-router.post('/', (req, res) => {
-    const { name, email, message } = req.body;
+// Email Transporter Setup
+const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+    },
+});
 
-    // Basic Validation
-    if (!name || !email || !message) {
-        return res.status(400).json({ error: 'All fields (name, email, message) are required.' });
+// POST /api/contact
+router.post('/', async (req, res) => {
+    const { name, email, message, token } = req.body;
+
+    if (!name || !email || !message || !token) {
+        return res.status(400).json({ error: 'All fields and reCAPTCHA are required.' });
     }
 
     try {
-        // Log the incoming message
-        console.log(`Message from ${name}: ${message} (${email})`);
+        const verifyURL = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET}&response=${token}`;
+        const recaptchaRes = await fetch(verifyURL, { method: 'POST' });
+        const recaptchaData = await recaptchaRes.json();
 
-        // Send a success response
-        res.status(200).json({ message: 'Message received successfully!' });
+        if (!recaptchaData.success) {
+            return res.status(400).json({ error: 'Failed reCAPTCHA verification.' });
+        }
+
+        await transporter.sendMail({
+            from: email,
+            to: process.env.RECEIVER_EMAIL,
+            subject: `New message from ${name}`,
+            text: `Sender's Email: ${email}\n\nMessage:\n${message}`,
+        });
+
+        res.status(200).json({ message: 'Message sent successfully!' });
     } catch (error) {
-        console.error('Error handling message:', error);
-        res.status(500).json({ error: 'Something went wrong. Please try again later.' });
+        console.error('Error sending email:', error);
+        res.status(500).json({ error: 'Failed to send message.' });
     }
 });
 

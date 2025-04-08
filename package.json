@@ -10,5 +10,8 @@
     "devDependencies": {
         "concurrently": "^8.2.2",
         "copy-webpack-plugin": "^13.0.0"
+    },
+    "dependencies": {
+        "helmet": "^8.1.0"
     }
 }
