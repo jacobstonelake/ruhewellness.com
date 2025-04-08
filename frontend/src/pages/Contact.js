@@ -4,96 +4,74 @@ import { toast } from 'react-toastify';
 
 const Contact = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
+  const [errors, setErrors] = useState({ name: '', email: '', message: '' });
 
-  // Load reCAPTCHA script on mount
   useEffect(() => {
-    const siteKey = process.env.REACT_APP_SITE_KEY;
-    if (!siteKey) {
-      console.error('❌ REACT_APP_SITE_KEY is missing. Check your .env or environment variables.');
-      toast.error('reCAPTCHA site key not found.');
+    const siteKey = process.env.REACT_APP_SITE_KEY || 'hardcoded_site_key_here';
+
+    if (!siteKey || siteKey.includes('your_site_key_here')) {
+      console.error('❌ Site key missing or not set properly.');
+      toast.error('reCAPTCHA key not found. Contact form disabled.');
       return;
     }
 
     const script = document.createElement('script');
     script.src = `https://www.google.com/recaptcha/enterprise.js?render=${siteKey}`;
     script.async = true;
+    script.onload = () => console.log('✅ reCAPTCHA script loaded');
+    script.onerror = () => console.error('❌ reCAPTCHA script failed to load');
     document.body.appendChild(script);
-  }, [siteKey]);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const nameValue = e.target.name.value.trim();
-    const emailValue = e.target.email.value.trim();
-    const messageValue = e.target.message.value.trim();
+    const siteKey = process.env.REACT_APP_SITE_KEY || 'hardcoded_site_key_here';
 
-    let hasError = false;
-    const newErrors = { name: '', email: '', message: '' };
+    const name = e.target.name.value.trim();
+    const email = e.target.email.value.trim();
+    const message = e.target.message.value.trim();
 
-    if (!nameValue) {
-      newErrors.name = 'Name is required.';
-      hasError = true;
-    }
+    const newErrors = {
+      name: !name ? 'Name is required.' : '',
+      email: !email
+        ? 'Email is required.'
+        : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+        ? ''
+        : 'Invalid email format.',
+      message: !message ? 'Message is required.' : '',
+    };
 
-    if (!emailValue) {
-      newErrors.email = 'Email is required.';
-      hasError = true;
-    } else {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(emailValue)) {
-        newErrors.email = 'Invalid email format.';
-        hasError = true;
-      }
-    }
+    setErrors(newErrors);
 
-    if (!messageValue) {
-      newErrors.message = 'Message is required.';
-      hasError = true;
-    }
-
-    if (hasError) {
-      setErrors(newErrors);
-      return;
-    }
-
-    setErrors({ name: '', email: '', message: '' });
+    if (Object.values(newErrors).some(Boolean)) return;
 
     try {
       setIsLoading(true);
 
       if (!window.grecaptcha?.enterprise) {
-        toast.error('reCAPTCHA not loaded. Please refresh and try again.');
+        toast.error('reCAPTCHA not loaded. Please reload.');
         return;
       }
 
-      const token = await window.grecaptcha.enterprise.execute(siteKey, {
-        action: 'contact_form',
-      });
-
-      console.log('🧪 Token (frontend):', token);
+      const token = await window.grecaptcha.enterprise.execute(siteKey, { action: 'contact_form' });
 
       const response = await fetch('https://ruhewellness-backend.onrender.com/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: nameValue, email: emailValue, message: messageValue, token }),
+        body: JSON.stringify({ name, email, message, token }),
       });
 
       const data = await response.json();
-
       if (response.ok) {
-        toast.success(data.message || 'Message sent successfully!');
+        toast.success(data.message || 'Message sent!');
         e.target.reset();
       } else {
-        toast.error(data.error || 'Failed to send message. Please try again.');
+        toast.error(data.error || 'Failed to send.');
       }
     } catch (error) {
-      console.error('❌ Error in form submission:', error);
-      toast.error('Something went wrong. Please try again.');
+      console.error('❌ Submission error:', error);
+      toast.error('Something went wrong.');
     } finally {
       setIsLoading(false);
     }
@@ -103,50 +81,26 @@ const Contact = () => {
     <main className="contact">
       <section className="contact-info">
         <h1>Contact Us</h1>
-        <p>
-          At Ruhe Wellness, we're here to support you on your journey to wellness. If you have questions,
-          need assistance with managing your medications, or would like to schedule a visit, feel free to
-          reach out.
-        </p>
-        <h2>Contact Information</h2>
+        <p>We’re here to support you on your wellness journey.</p>
         <ul>
           <li>Email: <a href="mailto:ruhe.wellness@gmail.com">ruhe.wellness@gmail.com</a></li>
-          <li>Call Us: (856) 223-7723</li>
+          <li>Phone: (856) 223-7723</li>
         </ul>
-        <p>We look forward to hearing from you!</p>
       </section>
 
       <section className="contact-form">
         <h2>Send Us a Message</h2>
         <form onSubmit={handleSubmit} noValidate>
           <label htmlFor="name">Name:</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            className={errors.name ? 'shake' : ''}
-            required
-          />
+          <input id="name" name="name" type="text" className={errors.name ? 'shake' : ''} required />
           {errors.name && <p className="field-error">{errors.name}</p>}
 
           <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            className={errors.email ? 'shake' : ''}
-            required
-          />
+          <input id="email" name="email" type="email" className={errors.email ? 'shake' : ''} required />
           {errors.email && <p className="field-error">{errors.email}</p>}
 
           <label htmlFor="message">Message:</label>
-          <textarea
-            id="message"
-            name="message"
-            rows="4"
-            className={errors.message ? 'shake' : ''}
-            required
-          ></textarea>
+          <textarea id="message" name="message" rows="4" className={errors.message ? 'shake' : ''} required />
           {errors.message && <p className="field-error">{errors.message}</p>}
 
           <button type="submit" className="submit-button" disabled={isLoading}>
