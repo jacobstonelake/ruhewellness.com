@@ -10,13 +10,21 @@ const Contact = () => {
     message: '',
   });
 
-  // Load reCAPTCHA Enterprise script on mount
+  const siteKey = process.env.REACT_APP_SITE_KEY;
+
+  // Load reCAPTCHA script on mount
   useEffect(() => {
+    if (!siteKey) {
+      console.error('❌ REACT_APP_SITE_KEY is missing. Check your .env or environment variables.');
+      toast.error('reCAPTCHA site key not found.');
+      return;
+    }
+
     const script = document.createElement('script');
-    script.src = `https://www.google.com/recaptcha/enterprise.js?render=${process.env.REACT_APP_SITE_KEY}`;
+    script.src = `https://www.google.com/recaptcha/enterprise.js?render=${siteKey}`;
     script.async = true;
     document.body.appendChild(script);
-  }, []);
+  }, [siteKey]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -59,23 +67,21 @@ const Contact = () => {
     try {
       setIsLoading(true);
 
-      const token = await window.grecaptcha.enterprise.execute(
-        process.env.REACT_APP_SITE_KEY,
-        { action: 'contact_form' }
-      );
-      console.log('🧪 Token generated (frontend):', token);
+      if (!window.grecaptcha?.enterprise) {
+        toast.error('reCAPTCHA not loaded. Please refresh and try again.');
+        return;
+      }
 
-      const formData = {
-        name: nameValue,
-        email: emailValue,
-        message: messageValue,
-        token,
-      };
+      const token = await window.grecaptcha.enterprise.execute(siteKey, {
+        action: 'contact_form',
+      });
+
+      console.log('🧪 Token (frontend):', token);
 
       const response = await fetch('https://ruhewellness-backend.onrender.com/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ name: nameValue, email: emailValue, message: messageValue, token }),
       });
 
       const data = await response.json();
@@ -87,7 +93,7 @@ const Contact = () => {
         toast.error(data.error || 'Failed to send message. Please try again.');
       }
     } catch (error) {
-      console.error('❌ Error in submission:', error);
+      console.error('❌ Error in form submission:', error);
       toast.error('Something went wrong. Please try again.');
     } finally {
       setIsLoading(false);
