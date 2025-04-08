@@ -1,79 +1,58 @@
-require('dotenv').config({ path: __dirname + '/.env' });
-console.log('✅ EMAIL_USER loaded:', process.env.EMAIL_USER);
-
-
+require('dotenv').config({ path: __dirname + '/.env' }); // Make sure .env loads from backend dir
+console.log('✅ EMAIL_USER loaded:', !!process.env.EMAIL_USER); // Avoid logging the secret
 
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
-const nodemailer = require('nodemailer');
-const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 
 const app = express();
-app.set('trust proxy', 1); 
+app.set('trust proxy', 1);
 
+// CORS Options
 const corsOptions = {
-    origin: 'https://www.ruhewellness.com',
-    methods: ['POST', 'GET'],
-    credentials: true,
-  };
+  origin: 'https://www.ruhewellness.com',
+  methods: ['POST', 'GET'],
+  credentials: true,
+};
 
 // Middleware
-app.use(cors(corsOptions));           // Apply globally
-app.options('*', cors(corsOptions)); 
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(helmet());
 
-
 // Error Handling Middleware
 app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something went wrong!');
+  console.error(err.stack);
+  res.status(500).send('Something went wrong!');
 });
 
-// Email Transporter Setup
-const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-    },
-});
-
-// Verify SMTP
-transporter.verify((error) => {
-    if (error) {
-        console.error('SMTP connection error:', error);
-    }
-});
-
-// Declare the rate limiter 
+// Rate Limiter
 const contactLimiter = rateLimit({
-    windowMs: 10 * 60 * 1000,
-    max: 5,
-    message: {
-        error: 'Too many messages from this IP, please try again later.',
-    },
+  windowMs: 10 * 60 * 1000,
+  max: 5,
+  message: {
+    error: 'Too many messages from this IP, please try again later.',
+  },
 });
 
+// Routes
 const contactRoute = require('./routes/contact');
 app.use('/api/contact', contactLimiter, contactRoute);
 
-// Routes
 app.get('/', (req, res) => {
-    res.send('Ruhe Wellness backend is live.');
+  res.send('Ruhe Wellness backend is live.');
 });
 
 app.get('/health', (req, res) => {
-    res.send('OK');
+  res.send('OK');
 });
 
+// Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

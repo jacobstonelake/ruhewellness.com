@@ -63,6 +63,7 @@ const Contact = () => {
       let token;
       try {
         token = await recaptchaRef.current.executeAsync();
+        console.log('🧪 Generated token (frontend):', token);
         recaptchaRef.current.reset();
       } catch (err) {
         console.error('❌ reCAPTCHA execution failed:', err);
