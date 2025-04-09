@@ -10,10 +10,8 @@ const Contact = () => {
 
   useEffect(() => {
     console.log('✅ SITE KEY:', SITE_KEY);
-
-    if (!SITE_KEY || SITE_KEY.includes('your_site_key_here')) {
-      console.error('❌ Site key missing or not set properly.');
-      toast.error('reCAPTCHA key not found. Contact form disabled.');
+    if (!SITE_KEY) {
+      toast.error('reCAPTCHA site key is missing.');
       return;
     }
 
@@ -21,7 +19,7 @@ const Contact = () => {
     script.src = `https://www.google.com/recaptcha/enterprise.js?render=${SITE_KEY}`;
     script.async = true;
     script.onload = () => console.log('✅ reCAPTCHA script loaded');
-    script.onerror = () => console.error('❌ reCAPTCHA script failed to load');
+    script.onerror = () => console.error('❌ Failed to load reCAPTCHA script');
     document.body.appendChild(script);
   }, []);
 
@@ -43,29 +41,18 @@ const Contact = () => {
     };
 
     setErrors(newErrors);
-
     if (Object.values(newErrors).some(Boolean)) return;
 
     try {
       setIsLoading(true);
 
-      if (!window.grecaptcha?.enterprise) {
-        toast.error('reCAPTCHA not loaded. Please reload.');
-        return;
-      }
+      const token = await window.grecaptcha.enterprise.execute(SITE_KEY, { action: 'contact_form' });
 
-      const token = await window.grecaptcha.enterprise.execute(SITE_KEY, {
-        action: 'contact_form',
+      const response = await fetch('https://ruhewellness-backend.onrender.com/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, message, token }),
       });
-
-      const response = await fetch(
-        'https://ruhewellness-backend.onrender.com/api/contact',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, message, token }),
-        }
-      );
 
       const data = await response.json();
       if (response.ok) {
@@ -76,7 +63,7 @@ const Contact = () => {
       }
     } catch (error) {
       console.error('❌ Submission error:', error);
-      toast.error('Something went wrong.');
+      toast.error('Something went wrong. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -88,9 +75,7 @@ const Contact = () => {
         <h1>Contact Us</h1>
         <p>We’re here to support you on your wellness journey.</p>
         <ul>
-          <li>
-            Email: <a href="mailto:ruhe.wellness@gmail.com">ruhe.wellness@gmail.com</a>
-          </li>
+          <li>Email: <a href="mailto:ruhe.wellness@gmail.com">ruhe.wellness@gmail.com</a></li>
           <li>Phone: (856) 223-7723</li>
         </ul>
       </section>

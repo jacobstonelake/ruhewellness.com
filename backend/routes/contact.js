@@ -2,7 +2,12 @@ const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-require('dotenv').config({ path: __dirname + '/../.env' }); // Load .env from parent directory
+require('dotenv').config({ path: __dirname + '/../.env' });
+
+// Secure Logging
+//console.log('🔧 GCP_PROJECT_ID loaded:', !!process.env.GCP_PROJECT_ID);
+//console.log('🔧 GCP_API_KEY loaded:', !!process.env.GCP_API_KEY);
+//console.log('🔧 ENTERPRISE_SITE_KEY loaded:', !!process.env.ENTERPRISE_SITE_KEY);
 
 // Email Transporter
 const transporter = nodemailer.createTransport({
@@ -15,7 +20,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Contact Route
+// POST /api/contact
 router.post('/', async (req, res) => {
   const { name, email, message, token } = req.body;
 
@@ -23,13 +28,6 @@ router.post('/', async (req, res) => {
     return res.status(400).json({ error: 'All fields and reCAPTCHA are required.' });
   }
 
-// Secure Logging (masking env values)
-console.log('🔧 GCP_PROJECT_ID loaded:', !!process.env.GCP_PROJECT_ID);
-console.log('🔧 GCP_API_KEY loaded:', !!process.env.GCP_API_KEY);
-console.log('🔧 ENTERPRISE_SITE_KEY loaded:', !!process.env.ENTERPRISE_SITE_KEY);
-
-
-  // Verify reCAPTCHA Enterprise token
   try {
     const assessmentPayload = {
       event: {
@@ -59,7 +57,6 @@ console.log('🔧 ENTERPRISE_SITE_KEY loaded:', !!process.env.ENTERPRISE_SITE_KE
       return res.status(403).json({ error: 'Suspicious activity detected or reCAPTCHA failed.' });
     }
 
-    // Send the email
     await transporter.sendMail({
       from: `"${name}" <${process.env.EMAIL_USER}>`,
       to: process.env.RECEIVER_EMAIL,
@@ -69,7 +66,6 @@ console.log('🔧 ENTERPRISE_SITE_KEY loaded:', !!process.env.ENTERPRISE_SITE_KE
     });
 
     res.status(200).json({ message: 'Message sent successfully!' });
-
   } catch (error) {
     console.error('❌ reCAPTCHA Enterprise verification failed:', error);
     res.status(500).json({ error: 'Failed to verify reCAPTCHA or send message.' });
