@@ -10,82 +10,70 @@ const Home = () => (
     >
       <div className="overlay"></div>
       <div className="intro-section">
-        <div className="intro-content">
-          {/* Optional Image */}
-          {/* <img 
-            src="/images/chelseapro.png" 
-            alt="Chelsea Minix, Psychiatric Nurse Practitioner" 
-            className="intro-image" 
-          /> */}
-
-        </div>
+        <div className="intro-content" />
       </div>
     </section>
 
     {/* Phone Contact */}
     <div className="phone-number">Call Us: (856) 223-7723</div>
 
+    {/* Ruhe Definition */}
+    <div className="definition">
+      <p><strong>Ruhe</strong> [ˈʁuːə] <em>noun</em> (German): peace, calm, tranquility</p>
+    </div>
+
     {/* Mission Statement */}
-    <div className="intro-text">
+    <section className="intro-text">
       <h1>Welcome to Ruhe Wellness</h1>
       <h2>Women&#39;s Psychiatry That Blends Science &amp; Soul</h2>
       <h2>*Now accepting clients virtually in New Jersey</h2>
+
       <p>
         Led by Chelsea Minix, MSN, PMHNP-BC, CCRN, Ruhe Wellness offers grounded,
-thoughtful, and personalized mental health care for women and mothers. With over a
-decade of nursing experience and deep expertise in psychopharmacology and holistic
-wellness, we provide thoughtful, evidence-based support — all through the convenience
-of secure telehealth.
+        thoughtful, and personalized mental health care for women and mothers. With over a
+        decade of nursing experience and deep expertise in psychopharmacology and holistic
+        wellness, we provide thoughtful, evidence-based support — all through the convenience
+        of secure telehealth.
       </p>
+
       <p>
         The female experience is both unique and universal — often challenging, yet equally
-inspiring and beautiful
+        inspiring and beautiful.
       </p>
-      <p>
-        Click here to schedule your free 15-minute consultation to see if we are what you’re
-looking for.
-            <a 
-                href="https://chelsea-minix.clientsecure.me" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="cta-button"
-              >
-                Book Appointment
-            </a>
-      </p>
-    </div>
 
-    {/* What to Expect Section 
-    <section className="info-section">
-      <h2>What to Expect</h2>
       <p>
-        Your first appointment is a thoughtful and collaborative conversation — not a checklist. 
-        We’ll discuss your history, current challenges, and goals for treatment in a supportive and judgment-free space.
+        Click below to schedule your free 15-minute consultation to see if we are what you’re looking for:
       </p>
-      <p>
-        Follow-up visits provide time to review your progress, fine-tune medications if needed, and support your ongoing journey.
-        You’ll never feel rushed, and you’ll always have a voice in your care.
-      </p>
-    </section> 
-    */}
-
-    {/* Why Cash Pay Section 
-    <section className="info-section">
-      <h2>The Burning Question… Why Cash Pay?</h2>
-      <p>
-        In today’s world, insurance companies have put <strong>“profit over patient”</strong> with high deductibles & copays,
-        frequent denials, complex terms & conditions, and lack of transparency.
-      </p>
-      <p>
-        With insurance, a corporation dictates every aspect of the treatment course and the amount of time 
-        that can be spent with a client (usually 15–20 minutes per session).
-      </p>
-      <p>
-        <strong>Cash pay is simple and transparent.</strong> It leads to faster care, fewer restrictions, and better control 
-        over your treatment.
-      </p>
+      <a 
+        href="https://chelsea-minix.clientsecure.me" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className="cta-button"
+      >
+        Book Appointment
+      </a>
     </section>
-    */}
+
+    {/* Specialties Section */}
+    <section className="info-section">
+      <h2>Specializing in Women’s Mind Wellness Throughout All Phases of Life</h2>
+
+      <h3>What we treat:</h3>
+      <p>Anxiety &amp; panic</p>
+      <p>Depression &amp; mood changes</p>
+      <p>Overwhelm &amp; burnout</p>
+      <p>Life transitions &amp; self-discovery</p>
+      <p>Pregnancy, postpartum, &amp; perimenopause</p>
+      <p>PMDD, hormonal changes, &amp; sleep issues</p>
+
+      <h3>What we do:</h3>
+      <p>Free 15-minute consultation to see if we’re right for you</p>
+      <p>Signature comprehensive psychiatric evaluation</p>
+      <p>Medication management</p>
+      <p>Lab work and genetic testing</p>
+      <p>Brief psychotherapy incorporated into each visit</p>
+      <p>Customized treatment plans tailored uniquely to you — your care can be as traditional or holistic as you choose!</p>
+    </section>
 
     {/* Testimonials Section */}
     <section className="info-section">
