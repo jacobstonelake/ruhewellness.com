@@ -220,3 +220,64 @@
   border-left: 6px solid #6A4E9A;
   padding: 2rem;
 }
+
+
+/* Package Cards */
+.package-card {
+  background-color: #f1ebf8;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 2px 8px rgba(106, 78, 154, 0.1);
+  text-align: left;
+}
+
+.package-card h3 {
+  font-size: 1.2rem;
+  color: #6A4E9A;
+  margin-bottom: 0.5rem;
+}
+
+.package-card p,
+.package-card li {
+  font-size: 1.05rem;
+  color: #606f7b;
+  line-height: 1.6;
+}
+
+.package-card ul {
+  list-style: disc inside;
+  padding-left: 1rem;
+  margin-top: 0.5rem;
+}
+
+.collapsible summary {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.collapsible[open] summary::after {
+  content: " ▲";
+}
+
+.collapsible summary::after {
+  content: " ▼";
+  float: right;
+}
+
+@media (min-width: 768px) {
+  .collapsible summary::after {
+    display: none;
+  }
+
+  .collapsible ul {
+    display: block !important;
+  transition: all 0.3s ease-in-out;
+
+  }
+
+  .collapsible summary {
+    cursor: default;
+    pointer-events: none;
+  }
+}
