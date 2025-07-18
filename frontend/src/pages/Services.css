@@ -62,6 +62,20 @@
   line-height: 1.5;
 }
 
+.pricing-packages h3 {
+  font-size: 1.3rem;
+  color: #6A4E9A;
+  margin-top: 1.5rem;
+}
+
+.pricing-packages p {
+  font-size: 1.05rem;
+  color: #606f7b;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+
 /* Alternate card background */
 .service-card:nth-child(odd) {
   background-color: #f1ebf8; /* Subtle lavender */
