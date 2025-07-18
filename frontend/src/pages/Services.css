@@ -115,17 +115,23 @@
   display: block;
 }
 
-/* Tablet and up: always expanded */
-@media (min-width: 768px) {
-  .collapsible summary::after {
-    display: none;
+@media (max-width: 767px) {
+  .collapsible summary:hover {
+    color: #4a3c79;
   }
+}
 
+@media (min-width: 768px) {
   .collapsible ul {
     display: block !important;
   }
 
+  .collapsible summary::after {
+    display: none;
+  }
+
   .collapsible summary {
+    padding: 0.5rem 0;
     cursor: default;
     pointer-events: none;
   }
