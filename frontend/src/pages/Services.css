@@ -115,31 +115,10 @@
   display: block;
 }
 
-@media (max-width: 767px) {
   .collapsible summary:hover {
     color: #4a3c79;
   }
-}
 
-@media (min-width: 768px) {
-  .collapsible summary::after {
-    display: none;
-  }
-
-  .collapsible summary {
-    cursor: default;
-    pointer-events: none;
-  }
-
-  .collapsible[open] ul {
-    display: block;
-  }
-
-  /* This is the new part: expand ALL ul manually */
-  .collapsible ul {
-    display: block !important;
-  }
-}
 
 /* Call to Action */
 .cta-bottom {

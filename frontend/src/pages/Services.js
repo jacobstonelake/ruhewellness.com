@@ -98,7 +98,7 @@ const Services = () => (
           ]
         }
       ].map((pkg, i) => (
-        <details key={i} className="package-card collapsible" open>
+        <details key={i} className="package-card collapsible">
           <summary>{pkg.title}</summary>
           <ul>
             {pkg.content.map((line, j) => (
