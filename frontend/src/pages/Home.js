@@ -8,10 +8,6 @@ const Home = () => (
       className="hero" 
       style={{ backgroundImage: `url("/images/lavendar.jpg")` }}
     >
-      <div className="overlay"></div>
-      <div className="intro-section">
-        <div className="intro-content" />
-      </div>
     </section>
 
     {/* Phone Contact */}
