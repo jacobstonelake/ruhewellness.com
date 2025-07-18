@@ -10,7 +10,7 @@ const AboutMe = () => {
         <div className="intro-content">
           <img 
             src="/images/chelseapro.png" 
-            alt="Chelsea Minix smiling, wearing professional attire" 
+            alt="Chelsea Minix professional attire" 
             className="profile-image" 
           />
           <div className="intro-text">
