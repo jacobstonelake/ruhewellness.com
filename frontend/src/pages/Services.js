@@ -59,84 +59,98 @@ const Services = () => (
       </p>
     </section>
 
-    {/* Expertise */}
-    <section className="expertise">
-      <h2>Expertise</h2>
-      <p>Evidence-based treatment is available for a wide range of mental health conditions, including:</p>
-      <ul className="expertise-list">
-        <li>ADHD</li>
-        <li>Anxiety</li>
-        <li>Depression</li>
-        <li>Obsessive Compulsive Disorder (OCD)</li>
-        <li>Postpartum Depression/Anxiety</li>
-        <li>PTSD/Trauma</li>
-      </ul>
-    </section>
 
-    {/* Pricing & Packages */}
     <section className="services-detail pricing-packages">
-      <h2>Pricing & Packages</h2>
+  <h2>Pricing & Packages</h2>
 
-      <p>Ruhe Wellness is an out-of-network provider. Cash pay is simple and transparent — it leads to faster care, fewer restrictions, and greater autonomy over your treatment.</p>
-      <p>We offer a straightforward private-pay model designed to prioritize your time, privacy, and quality of care. Superbills are available for out-of-network reimbursement.</p>
+  <p>Ruhe Wellness is an out-of-network provider. Cash pay is simple and transparent — it leads to faster care, fewer restrictions, and greater autonomy over your treatment.</p>
+  <p>We offer a straightforward private-pay model designed to prioritize your time, privacy, and quality of care. Superbills are available for out-of-network reimbursement.</p>
 
-      <h3>💼 Signature Sessions</h3>
-      <p>Initial Psychiatric Evaluation (90 min): <strong>$400</strong><br />
-         Follow-Up Session (30–45 min): <strong>$200</strong></p>
+  {/* Signature Sessions */}
+  <div className="package-card">
+    <h3>💼 Signature Sessions</h3>
+    <p>Initial Psychiatric Evaluation (90 min): <strong>$400</strong><br />
+       Follow-Up Session (30–45 min): <strong>$200</strong></p>
+  </div>
 
-      <h3>🌱 The “Seed” Package – $720</h3>
-      <p>
-        1 Psychiatric Intake<br />
-        2 Follow-Ups<br />
-        $10 off future sessions (if booked within 30 days)
-      </p>
+  {/* Packages */}
+  {[
+    {
+      title: '🌱 The “Seed” Package – $720',
+      content: [
+        '1 Psychiatric Intake',
+        '2 Follow-Ups',
+        '$10 off future sessions (if booked within 30 days)'
+      ]
+    },
+    {
+      title: '🌿 The “Cultivate” Package – $1,375 (Most Used)',
+      content: [
+        '1 Intake + 5 Follow-Ups',
+        'Priority scheduling',
+        'Superbills included',
+        '$25 off future sessions (if booked within 30 days)'
+      ]
+    },
+    {
+      title: '🌾 The “Harvest” Package – $2,075',
+      content: [
+        '1 Intake + 8 Follow-Ups',
+        'Secure messaging for 3 months',
+        'Monthly 15-min check-in call',
+        'Priority scheduling & reminders',
+        '$25 off future sessions (if booked within 30 days)'
+      ]
+    },
+    {
+      title: '👶 “The Nest” Perinatal Support Plan – $1,320',
+      content: [
+        '1 Intake + 4 Follow-Ups',
+        'OB/GYN, midwife, doula, or therapist coordination',
+        'Priority scheduling',
+        'Personalized medication/supplement guidance'
+      ]
+    },
+    {
+      title: '🌸 The Root Plan (Holistic-Only) – $475',
+      content: [
+        '60-min Holistic Mental Wellness Consult',
+        '2 Follow-Ups',
+        'Lifestyle/supplement guide',
+        'Optional lab review or functional screening',
+        'No medications'
+      ]
+    }
+  ].map((pkg, i) => (
+    <details key={i} className="package-card collapsible">
+      <summary>{pkg.title}</summary>
+      <ul>
+        {pkg.content.map((line, j) => (
+          <li key={j}>{line}</li>
+        ))}
+      </ul>
+    </details>
+  ))}
 
-      <h3>🌿 The “Cultivate” Package – $1,375 <em>(Most Used)</em></h3>
-      <p>
-        1 Intake + 5 Follow-Ups<br />
-        Priority scheduling<br />
-        Superbills included<br />
-        $25 off future sessions (if booked within 30 days)
-      </p>
+  {/* Memberships */}
+  <div className="package-card">
+    <h3>📆 Monthly Memberships</h3>
+    <p><strong>Lavender Plan – $175/month:</strong> 1 Follow-Up, messaging, cancel anytime</p>
+    <p><strong>Ruhe Plan – $350/month:</strong> 2 Follow-Ups, messaging, priority scheduling, and free paperwork support</p>
+  </div>
 
-      <h3>🌾 The “Harvest” Package – $2,075</h3>
-      <p>
-        1 Intake + 8 Follow-Ups<br />
-        Secure messaging for 3 months<br />
-        Monthly 15-min check-in call<br />
-        Priority scheduling & reminders<br />
-        $25 off future sessions (if booked within 30 days)
-      </p>
+  {/* Reimbursement & Sliding Scale */}
+  <div className="package-card">
+    <h3>🧾 Reimbursement</h3>
+    <p>We are out-of-network, but many PPO plans offer reimbursement. Superbills are provided if eligible.</p>
+  </div>
 
-      <h3>👶 “The Nest” Perinatal Support Plan – $1,320</h3>
-      <p>
-        1 Intake + 4 Follow-Ups<br />
-        OB/GYN, midwife, doula, or therapist coordination<br />
-        Priority scheduling<br />
-        Personalized medication/supplement guidance
-      </p>
+  <div className="package-card">
+    <h3>💡 Sliding Scale</h3>
+    <p>A few reduced-fee spots are reserved for maternity clients, students, and others experiencing hardship — just ask during your intro call.</p>
+  </div>
+</section>
 
-      <h3>🌸 The Root Plan (Holistic-Only Option) – $475</h3>
-      <p>
-        60-min Holistic Mental Wellness Consult<br />
-        2 Follow-Ups<br />
-        Lifestyle/supplement guide<br />
-        Optional lab review or functional medicine screening<br />
-        No medications
-      </p>
-
-      <h3>📆 Monthly Memberships</h3>
-      <p>
-        <strong>Lavender Plan – $175/month:</strong> 1 Follow-Up, messaging, cancel anytime<br />
-        <strong>Ruhe Plan – $350/month:</strong> 2 Follow-Ups, messaging, priority scheduling, and free paperwork support
-      </p>
-
-      <h3>🧾 Reimbursement</h3>
-      <p>We are out-of-network, but many PPO plans offer reimbursement. Superbills are provided if eligible.</p>
-
-      <h3>💡 Sliding Scale</h3>
-      <p>A few reduced-fee spots are reserved for maternity clients, students, and others experiencing hardship — just ask during your intro call.</p>
-    </section>
 
     {/* CTA */}
     <section className="cta-bottom">
