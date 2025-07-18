@@ -23,7 +23,7 @@ const Home = () => (
     </div>
 
     {/* Mission Statement */}
-    <section className="intro-text">
+    <section className="info-section">
       <h1>Welcome to Ruhe Wellness</h1>
       <h2>Women&#39;s Psychiatry That Blends Science &amp; Soul</h2>
       <h2>*Now accepting clients virtually in New Jersey</h2>
