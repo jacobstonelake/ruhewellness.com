@@ -122,18 +122,22 @@
 }
 
 @media (min-width: 768px) {
-  .collapsible ul {
-    display: block !important;
-  }
-
   .collapsible summary::after {
     display: none;
   }
 
   .collapsible summary {
-    padding: 0.5rem 0;
     cursor: default;
     pointer-events: none;
+  }
+
+  .collapsible[open] ul {
+    display: block;
+  }
+
+  /* This is the new part: expand ALL ul manually */
+  .collapsible ul {
+    display: block !important;
   }
 }
 
