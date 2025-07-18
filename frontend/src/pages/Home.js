@@ -51,25 +51,30 @@ const Home = () => (
     </section>
 
     {/* Specialties Section */}
-    <section className="info-section">
-      <h2>Specializing in Women’s Mind Wellness Throughout All Phases of Life</h2>
-
-      <h3>What we treat:</h3>
-      <p>Anxiety &amp; panic</p>
-      <p>Depression &amp; mood changes</p>
-      <p>Overwhelm &amp; burnout</p>
-      <p>Life transitions &amp; self-discovery</p>
-      <p>Pregnancy, postpartum, &amp; perimenopause</p>
-      <p>PMDD, hormonal changes, &amp; sleep issues</p>
-
-      <h3>What we do:</h3>
-      <p>Free 15-minute consultation to see if we’re right for you</p>
-      <p>Signature comprehensive psychiatric evaluation</p>
-      <p>Medication management</p>
-      <p>Lab work and genetic testing</p>
-      <p>Brief psychotherapy incorporated into each visit</p>
-      <p>Customized treatment plans tailored uniquely to you — your care can be as traditional or holistic as you choose!</p>
-    </section>
+      <section className="home-highlight">
+        <div className="highlight-card">
+          <h3>What We Treat</h3>
+          <ul>
+            <li>Anxiety & panic</li>
+            <li>Depression & mood changes</li>
+            <li>Overwhelm & burnout</li>
+            <li>Life transitions & self-discovery</li>
+            <li>Pregnancy, postpartum, & perimenopause</li>
+            <li>PMDD, hormonal changes, & sleep issues</li>
+          </ul>
+        </div>
+        <div className="highlight-card">
+          <h3>What We Do</h3>
+          <ul>
+            <li>Free 15-minute consultation to see if we’re right for you</li>
+            <li>Signature comprehensive psychiatric evaluation</li>
+            <li>Medication management</li>
+            <li>Lab work and genetic testing</li>
+            <li>Brief psychotherapy incorporated into each visit</li>
+            <li>Customized treatment plans — traditional or holistic</li>
+          </ul>
+        </div>
+      </section>
 
     {/* Testimonials Section */}
     <section className="info-section">
