@@ -265,6 +265,24 @@
   float: right;
 }
 
+/* Default collapsible behavior (mobile) */
+.collapsible ul {
+  display: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.collapsible[open] ul {
+  display: block;
+}
+
+.collapsible summary {
+  cursor: pointer;
+  pointer-events: auto;
+  list-style: none;
+  outline: none;
+}
+
+
 @media (min-width: 768px) {
   .collapsible summary::after {
     display: none;
