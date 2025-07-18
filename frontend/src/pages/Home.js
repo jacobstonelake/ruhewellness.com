@@ -20,9 +20,9 @@ const Home = () => (
 
     {/* Mission Statement */}
     <section className="info-section">
-      <h1>Welcome to Ruhe Wellness</h1>
-      <h2>Women&#39;s Psychiatry That Blends Science &amp; Soul</h2>
-      <h2>*Now accepting clients virtually in New Jersey</h2>
+      <h2>Welcome to Ruhe Wellness</h2>
+      <h3>Women&#39;s Psychiatry That Blends Science &amp; Soul</h3>
+      <h3>*Now accepting clients virtually in New Jersey</h3>
 
       <p>
         Led by Chelsea Minix, MSN, PMHNP-BC, CCRN, Ruhe Wellness offers grounded,
