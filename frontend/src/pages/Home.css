@@ -9,7 +9,6 @@
 /* Hero Section as Background */
 .hero {
   position: relative;
-  padding: 2rem 5%;
   width: 100%;
   height: 60vh;
   min-height: 400px;
@@ -162,7 +161,6 @@
   .hero {
     background: none;
     height: auto;
-    padding: 2rem 5%;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
