@@ -9,6 +9,7 @@
 /* Hero Section as Background */
 .hero {
   position: relative;
+  padding: 2rem 5%;
   width: 100%;
   height: 60vh;
   min-height: 400px;

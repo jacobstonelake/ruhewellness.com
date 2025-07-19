@@ -53,6 +53,14 @@ router.post('/', async (req, res) => {
     const actionMatches = data.tokenProperties?.action === 'contact_form';
     const score = data.riskAnalysis?.score ?? 0;
 
+    console.log('🧠 Score:', score);
+    console.log('📬 Action matches expected:', actionMatches);
+    console.log('✅ Token valid:', valid);
+    console.log('🌐 IP Address:', req.ip);
+    console.log('🧭 User-Agent:', req.headers['user-agent']);
+    console.log('📓 Reasons:', data.riskAnalysis?.reasons);
+
+
     if (!valid || !actionMatches || score < 0.5) {
       return res.status(403).json({ error: 'Suspicious activity detected or reCAPTCHA failed.' });
     }
